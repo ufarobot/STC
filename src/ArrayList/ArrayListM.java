@@ -15,25 +15,15 @@ public class ArrayListM<T> {
         n = 0;
     }
 
-    public void add(T i) {
+    public void add(T item) {
         if (n == a.length) resize(RESIZE_KOEFICIENT * a.length);
-
+        a[n++] = item;
     }
 
     private void resize(int capacity) {
         T[] newArray = (T[]) new Object[capacity];
         System.arraycopy(a, 0, newArray, 0, n);
         a = newArray;
-    }
-
-    public static void main(String[] args) {
-        ArrayListM<Integer> array = new ArrayListM<>();
-        for (int i = 0; i < 1000; i++) {
-            array.add(i);
-        }
-        for (int i = 0; i < array.size(); i++) {
-            System.out.println(array.get(i));
-        }
     }
 
     private T get(int index) {
@@ -51,20 +41,38 @@ public class ArrayListM<T> {
 
     public T remove(int index) {
         if (index >= n || index < 0) throw new IndexOutOfBoundsException();
-        return a[index];
+        if (n * RESIZE_KOEFICIENT * RESIZE_KOEFICIENT < a.length)
+            resize(a.length / RESIZE_KOEFICIENT);
+        T item = a[index];
+        for (int i = index; i < n; i++) {
+            a[i] = a[i + 1];
+        }
+        n--;
+        return item;
     }
 
     private class ArrayListIterator implements Iterator {
+
         private int i = 0;
         @Override
         public boolean hasNext() {
             return i < n;
         }
-
         @Override
         public Object next() {
             if (!hasNext()) throw new NoSuchElementException();
             return a[i++];
+        }
+
+    }
+    public static void main(String[] args) {
+        ArrayListM<Integer> array = new ArrayListM<>();
+        for (int i = 0; i < 10; i++) {
+            array.add(i);
+        }
+        array.remove(1);
+        for (int i = 0; i < array.size(); i++) {
+            System.out.println(array.get(i));
         }
     }
 }
