@@ -1,0 +1,100 @@
+package Collections;
+
+import java.util.Collection;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+
+public class HashMapM<Key, Value> implements Map<Key, Value>{
+    private static final float LOAD_FACTOR = 0.75f;
+    private static final int INITIAL_CAPACITY = 16;
+    private int size;
+    private int capacity;
+    Node<Key, Value>[] array;
+    private class Node<Key, Value> {
+        Key key;
+        Value value;
+        Node next;
+
+        public Node(Key key, Value value, Node next) {
+            this.key = key;
+            this.value = value;
+            this.next = next;
+        }
+    }
+
+    public HashMapM() {
+        capacity = INITIAL_CAPACITY;
+        array = (Node<Key, Value>[]) new Object[capacity];
+    }
+
+    public Value put(Key key, Value value) {
+        if (size * LOAD_FACTOR >= capacity) resize();
+        int i = hashCode(key);
+
+        return value;
+    }
+
+    private void resize() {
+
+    }
+
+    @Override
+    public Value remove(Object key) {
+        return null;
+    }
+
+    @Override
+    public void putAll(Map<? extends Key, ? extends Value> m) {
+
+    }
+
+    @Override
+    public void clear() {
+
+    }
+
+    @Override
+    public Set<Key> keySet() {
+        return null;
+    }
+
+    @Override
+    public Collection<Value> values() {
+        return null;
+    }
+
+    @Override
+    public Set<Entry<Key, Value>> entrySet() {
+        return null;
+    }
+
+    private int hashCode(Key key) {
+        return Objects.hashCode(key) ^ Objects.hashCode(value);;
+    }
+
+    public int size() {
+        return 0;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return false;
+    }
+
+    @Override
+    public boolean containsKey(Object key) {
+        return false;
+    }
+
+    @Override
+    public boolean containsValue(Object value) {
+        return false;
+    }
+
+    @Override
+    public Value get(Object key) {
+        return null;
+    }
+
+}
