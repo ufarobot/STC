@@ -14,6 +14,7 @@ public class EmployeeManager {
     }
 
     private void prepareFile(String fileName) {
+        // TODO is there more efficient implementation?
         try {
             new PrintWriter(fileName).close();
         } catch (FileNotFoundException e) {
@@ -33,8 +34,7 @@ public class EmployeeManager {
     }
 
     private ArrayList<Employee> getEmployees() {
-        try {
-            ObjectInputStream file = new ObjectInputStream(new FileInputStream(fileName));
+        try(ObjectInputStream file = new ObjectInputStream(new FileInputStream(fileName))) {
             return  (ArrayList<Employee>) file.readObject();
         } catch (EOFException e){ // If file is empty, return empty list
         } catch (IOException | ClassNotFoundException e) {
@@ -76,8 +76,7 @@ public class EmployeeManager {
     }
 
     private void writeEmployeesToFile(ArrayList<Employee> employees) {
-        try {
-            ObjectOutputStream file = new ObjectOutputStream(new FileOutputStream(fileName));
+        try (ObjectOutputStream file = new ObjectOutputStream(new FileOutputStream(fileName))) {
             file.writeObject(employees);
         } catch (IOException e) {
             e.printStackTrace();
