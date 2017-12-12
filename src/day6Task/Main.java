@@ -23,7 +23,7 @@ public class Main {
         filesCount = srcFiles.length;
 
         Thread[] threads = new Thread[filesCount];
-        for (int i = 0; i < srcFiles.length; i++) {
+        for (int i = 0; i < filesCount; i++) {
             threads[i] = new Thread(new WordCounter(srcFiles[i], dstFile, SEARCHED_WORD));
             threads[i].start();
             try {
