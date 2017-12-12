@@ -29,9 +29,11 @@ public class WordCounter implements Runnable {
             while ((line = src.readLine()) != null) {
                 int index = -1;
                 while ((index = line.indexOf(searchWord, index + 1)) != -1) {
-                    wordCount++;
-                    if (wordCount % 5 == 0) {
-                        dstFile.println(wordCount);
+                    synchronized (monitor) {
+                        wordCount++;
+                        if (wordCount % 5 == 0) {
+                            dstFile.println(wordCount);
+                        }
                     }
                 }
             }

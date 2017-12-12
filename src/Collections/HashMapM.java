@@ -1,11 +1,8 @@
 package Collections;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
-public class HashMapM<Key, Value> implements Map<Key, Value>{
+public class HashMapM<Key, Value> extends AbstractMap<Key, Value> implements Map<Key, Value>{
     private static final float LOAD_FACTOR = 0.75f;
     private static final int INITIAL_CAPACITY = 16;
     private int size;
@@ -30,9 +27,13 @@ public class HashMapM<Key, Value> implements Map<Key, Value>{
 
     public Value put(Key key, Value value) {
         if (size * LOAD_FACTOR >= capacity) resize();
-        int i = hashCode(key);
+        int i = getIndex(key);
 
         return value;
+    }
+
+    private int getIndex(Key key) {
+        return (key.hashCode() & 0x7fffffff) % size;
     }
 
     private void resize() {
@@ -67,10 +68,6 @@ public class HashMapM<Key, Value> implements Map<Key, Value>{
     @Override
     public Set<Entry<Key, Value>> entrySet() {
         return null;
-    }
-
-    private int hashCode(Key key) {
-        return Objects.hashCode(key) ^ Objects.hashCode(value);;
     }
 
     public int size() {
