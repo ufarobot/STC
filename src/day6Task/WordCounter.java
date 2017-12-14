@@ -3,8 +3,9 @@ package day6Task;
 import java.io.*;
 
 public class WordCounter implements Runnable {
-    public static final Object monitor = new Object();
-    private static int wordCount;
+    private static class Lock {};
+    public static final Object lock = new Lock();
+    volatile static int wordCount;
     private final File srcFile;
     private final PrintWriter dstFile;
     private final String searchWord;
@@ -29,11 +30,11 @@ public class WordCounter implements Runnable {
             while ((line = src.readLine()) != null) {
                 int index = -1;
                 while ((index = line.indexOf(searchWord, index + 1)) != -1) {
-                    synchronized (monitor) {
+                    synchronized (lock) {
                         wordCount++;
-                        if (wordCount % 5 == 0) {
-                            dstFile.println(wordCount);
-                        }
+                    }
+                    if (wordCount % 5 == 0) {
+                        dstFile.println(wordCount);
                     }
                 }
             }
